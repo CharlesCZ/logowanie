@@ -30,6 +30,16 @@ public class UserRepository {
         new insertAsyncTask(mUserDao).execute(user);
     }
 
+    public User checkUser(String wpisanyemail){
+
+         return mUserDao.checkUser(wpisanyemail);
+    }
+
+    public User checkUser(String wpisanyemail,String wpisanepassword){
+
+        return mUserDao.checkUser(wpisanyemail,wpisanepassword);
+    }
+
     private static class insertAsyncTask extends AsyncTask<User, Void, Void> {
 
         private UserDao mAsyncTaskDao;
