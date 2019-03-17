@@ -20,14 +20,19 @@ public class UserViewModel  extends AndroidViewModel {
         mAllUsers = mRepository.getAllUsers();
     }
 
-    public User checkUser(String wpisanyemail){
+    public  boolean checkUser(String wpisanyemail){
 
-        return mRepository.checkUser(wpisanyemail);
+        if(mRepository.checkUser(wpisanyemail)!=null)
+            return true;
+        else return false;
+
     }
 
-    public User checkUser(String wpisanyemail,String wpisanepassword){
+    public boolean checkUser(String wpisanyemail,String wpisanepassword){
 
-        return mRepository.checkUser(wpisanyemail,wpisanepassword);
+        if(mRepository.checkUser(wpisanyemail,wpisanepassword)!=null)
+            return true;
+        else return false;
     }
 
     LiveData<List<User>> getAllUSers() { return mAllUsers; }

@@ -15,7 +15,6 @@ import android.view.View;
 import com.example.logowanie.R;
 import com.example.logowanie.activities.activities.helpers.InputValidation;
 import com.example.logowanie.activities.activities.model.User;
-import com.example.logowanie.activities.activities.sql.DatabaseHelper;
 
 /**
  * Created by lalit on 8/27/2016.

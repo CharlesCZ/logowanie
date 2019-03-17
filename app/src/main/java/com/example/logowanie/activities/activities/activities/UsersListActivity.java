@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import com.example.logowanie.R;
 import com.example.logowanie.activities.activities.adapters.UsersRecyclerAdapter;
 import com.example.logowanie.activities.activities.model.User;
-import com.example.logowanie.activities.activities.sql.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
