@@ -1,5 +1,6 @@
 package com.example.logowanie.activities.activities.activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.view.View;
 
 
 import com.example.logowanie.R;
+import com.example.logowanie.activities.activities.UserViewModel;
 import com.example.logowanie.activities.activities.helpers.InputValidation;
 import com.example.logowanie.activities.activities.model.User;
 
@@ -39,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private AppCompatTextView appCompatTextViewLoginLink;
 
     private InputValidation inputValidation;
-    private DatabaseHelper databaseHelper;
+    private UserViewModel mUserViewModel;
     private User user;
 
     @Override
@@ -89,7 +91,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     private void initObjects() {
         inputValidation = new InputValidation(activity);
-        databaseHelper = new DatabaseHelper(activity);
+        //databaseHelper = new DatabaseHelper(activity);
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         user = new User();
 
     }
@@ -135,13 +138,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        if (!databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim())) {
+        //mUserViewModel.mUserViewModel.checkUser(textInputEditTextEmail.getText().toString().trim())
+        if (!mUserViewModel.checkUser(textInputEditTextEmail.getText().toString().trim())) {
 
             user.setName(textInputEditTextName.getText().toString().trim());
             user.setEmail(textInputEditTextEmail.getText().toString().trim());
             user.setPassword(textInputEditTextPassword.getText().toString().trim());
 
-            databaseHelper.addUser(user);
+            mUserViewModel.addUser(user);
 
             // Snack Bar to show success message that record saved successfully
             Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();

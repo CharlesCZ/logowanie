@@ -1,5 +1,7 @@
 package com.example.logowanie.activities.activities.activities;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 
 
 import com.example.logowanie.R;
+import com.example.logowanie.activities.activities.UserViewModel;
 import com.example.logowanie.activities.activities.adapters.UsersRecyclerAdapter;
 import com.example.logowanie.activities.activities.model.User;
 
@@ -27,8 +30,7 @@ public class UsersListActivity extends AppCompatActivity {
     private AppCompatTextView textViewName;
     private RecyclerView recyclerViewUsers;
     private List<User> listUsers;
-    private UsersRecyclerAdapter usersRecyclerAdapter;
-    private DatabaseHelper databaseHelper;
+    private UserViewModel mUserViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class UsersListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         initViews();
         initObjects();
+
 
     }
 
@@ -52,26 +55,35 @@ public class UsersListActivity extends AppCompatActivity {
      * This method is to initialize objects to be used
      */
     private void initObjects() {
-        listUsers = new ArrayList<>();
-        usersRecyclerAdapter = new UsersRecyclerAdapter(listUsers);
+        final UsersRecyclerAdapter usersRecyclerAdapter  = new UsersRecyclerAdapter(this);
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        mUserViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable final List<User> users) {
+                // Update the cached copy of the words in the adapter.
+                usersRecyclerAdapter.setUsers(users);
+            }
+        });
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewUsers.setLayoutManager(mLayoutManager);
         recyclerViewUsers.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUsers.setHasFixedSize(true);
         recyclerViewUsers.setAdapter(usersRecyclerAdapter);
-        databaseHelper = new DatabaseHelper(activity);
+
+
+
 
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
         textViewName.setText(emailFromIntent);
 
-        getDataFromSQLite();
+       // getDataFromSQLite();
     }
 
     /**
      * This method is to fetch all user records from SQLite
      */
-    private void getDataFromSQLite() {
+ /*   private void getDataFromSQLite() {
         // AsyncTask is used that SQLite operation not blocks the UI Thread.
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -88,5 +100,5 @@ public class UsersListActivity extends AppCompatActivity {
                 usersRecyclerAdapter.notifyDataSetChanged();
             }
         }.execute();
-    }
+    }*/
 }

@@ -13,14 +13,27 @@ public class UserViewModel  extends AndroidViewModel {
     private UserRepository mRepository;
 
     private LiveData<List<User>> mAllUsers;
+    private LiveData<User> user;
 
     public UserViewModel (Application application) {
         super(application);
         mRepository = new UserRepository(application);
         mAllUsers = mRepository.getAllUsers();
+
     }
 
-    public  boolean checkUser(String wpisanyemail){
+
+    public LiveData<User> checkUser(String wpisanyemail){
+
+        return  mRepository.checkUser(wpisanyemail);
+    }
+
+    public LiveData<User> checkUser(String wpisanyemail,String wpisanepassword){
+
+        return mRepository.checkUser(wpisanyemail,wpisanepassword);
+    }
+
+ /*   public  boolean checkUser(String wpisanyemail){
 
         if(mRepository.checkUser(wpisanyemail)!=null)
             return true;
@@ -33,9 +46,9 @@ public class UserViewModel  extends AndroidViewModel {
         if(mRepository.checkUser(wpisanyemail,wpisanepassword)!=null)
             return true;
         else return false;
-    }
+    }*/
 
-    LiveData<List<User>> getAllUSers() { return mAllUsers; }
+  public  LiveData<List<User>> getAllUsers() { return mAllUsers; }
 
-    public void insert(User user) { mRepository.insert(user); }
+    public void addUser(User user) { mRepository.insert(user); }
 }
