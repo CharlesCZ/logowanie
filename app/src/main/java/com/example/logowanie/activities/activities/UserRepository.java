@@ -29,55 +29,13 @@ public class UserRepository {
 
 
 
- /*  public User checkUser(String wpisanyemail) throws ExecutionException, InterruptedException {
 
-         return new checkUser1AsyncTask(mUserDao).execute(wpisanyemail).get();
-    }
-
-    private static class checkUser1AsyncTask extends AsyncTask<String, Void, User> {
-
-        private UserDao mAsyncTaskDao;
-
-        checkUser1AsyncTask(UserDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected  User  doInBackground(final String... params) {
-            return  mAsyncTaskDao.checkUser(params[0]);
-        }
-    }
-
-
-
-
-    public User checkUser(String wpisanyemail,String wpisanepassword){
-
-        return mUserDao.checkUser(wpisanyemail,wpisanepassword);
-    }
-
-  private static class checkUser2AsyncTask extends AsyncTask<String, Void, User> {
-
-        private UserDao mAsyncTaskDao;
-
-        checkUser2AsyncTask(UserDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected  User  doInBackground(final String... params) {
-            User fetchedUser=  mAsyncTaskDao.checkUser(params[0],params[1]);
-            return fetchedUser;
-        }
-    }
-*/
-
-    public LiveData<User> checkUser(String wpisanyemail){
+    public User checkUser(String wpisanyemail){
 
         return mUserDao.checkUser(wpisanyemail);
     }
 
-    public LiveData<User> checkUser(String wpisanyemail,String wpisanepassword){
+   public User checkUser(String wpisanyemail,String wpisanepassword){
 
         return mUserDao.checkUser(wpisanyemail,wpisanepassword);
     }

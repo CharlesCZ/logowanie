@@ -138,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        //mUserViewModel.mUserViewModel.checkUser(textInputEditTextEmail.getText().toString().trim())
+
         if (!mUserViewModel.checkUser(textInputEditTextEmail.getText().toString().trim())) {
 
             user.setName(textInputEditTextName.getText().toString().trim());

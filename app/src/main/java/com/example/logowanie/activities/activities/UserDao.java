@@ -31,10 +31,10 @@ public interface UserDao {
    LiveData<List<User>> getAllUsers();
 
     @Query("Select * from user_table WHERE user_table.email =:wpisanyemail")
-   LiveData<User> checkUser(String wpisanyemail); //ale chodzi ci o boolean
+   User checkUser(String wpisanyemail); //ale chodzi ci o boolean
 
     @Query("Select * from user_table WHERE user_table.email =:wpisanyemail AND user_table.password =:wpisanepassword ")
-    LiveData< User> checkUser(String wpisanyemail,String wpisanepassword); //ale chodzi ci o boolean
+     User checkUser(String wpisanyemail,String wpisanepassword); //ale chodzi ci o boolean
 
 
 }
