@@ -30,12 +30,12 @@ public class UserRepository {
 
 
 
-    public User checkUser(String wpisanyemail){
+    public LiveData<User> checkUser(String wpisanyemail){
 
         return mUserDao.checkUser(wpisanyemail);
     }
 
-   public User checkUser(String wpisanyemail,String wpisanepassword){
+   public LiveData<User>  checkUser(String wpisanyemail,String wpisanepassword){
 
         return mUserDao.checkUser(wpisanyemail,wpisanepassword);
     }
