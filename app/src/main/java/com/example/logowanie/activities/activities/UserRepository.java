@@ -18,6 +18,8 @@ public class UserRepository {
     private LiveData<List<User>>  mAllUsers;
     private MutableLiveData<List<User>> searchResults =
             new MutableLiveData<>();
+    private MutableLiveData<List<User>> usersListbyEmailAndPassword =
+            new MutableLiveData<>();
 
      UserRepository(Application application) {
         UserRoomDatabase db=UserRoomDatabase.getDatabase(application);
@@ -33,19 +35,15 @@ public class UserRepository {
 
 
 
- //   public List<User> checkUser(String wpisanyemail){
-
-    //    return mUserDao.findUser(wpisanyemail);
-   // }
 
     public MutableLiveData<List<User>> getSearchResults() {
         return searchResults;
     }
 
-    public void findUser(String name) {
+    public void findUser(String email) {
         QueryAsyncTask task = new QueryAsyncTask(mUserDao);
         task.delegate = this;
-        task.execute(name);
+        task.execute(email);
     }
 
 
@@ -75,10 +73,56 @@ public class UserRepository {
     }
 
 
-   public LiveData<User>  checkUser(String wpisanyemail,String wpisanepassword){
 
-        return mUserDao.checkUser(wpisanyemail,wpisanepassword);
+
+
+
+
+
+
+    public MutableLiveData<List<User>> getusersListbyEmailAndPassword() {
+        return usersListbyEmailAndPassword;
     }
+
+
+   public void  findUserbyIdAndPassword(String wpisanyemail,String wpisanepassword){
+
+       QueryAsyncTask1 task = new QueryAsyncTask1(mUserDao);
+       task.delegate1 = this;
+       task.execute(wpisanyemail,wpisanepassword);
+    }
+
+    private void asyncFinished1(List<User> results) {
+        usersListbyEmailAndPassword.setValue(results);
+    }
+
+
+    private static class QueryAsyncTask1 extends
+            AsyncTask<String, Void, List<User>> {
+
+        private UserDao asyncTaskDao;
+        private UserRepository delegate1 = null;
+
+        QueryAsyncTask1(UserDao dao) {
+            asyncTaskDao = dao;
+        }
+
+        @Override
+        protected List<User> doInBackground(final String... params) {
+            return asyncTaskDao.findUserbyEmailAndPassword(params[0],params[1]);
+        }
+
+        @Override
+        protected void onPostExecute(List<User> result) {
+            delegate1.asyncFinished1(result);
+        }
+    }
+
+
+
+
+
+
 
     public void insert (User user) {
         new insertAsyncTask(mUserDao).execute(user);

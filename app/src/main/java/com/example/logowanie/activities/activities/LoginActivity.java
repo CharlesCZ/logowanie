@@ -116,10 +116,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_email))) {
             return;
         }
+        mUserViewModel.findUserbyIdAndPassword(textInputEditTextEmail.getText().toString().trim()
+                , textInputEditTextPassword.getText().toString().trim());
 
-        if (mUserViewModel.checkUser(textInputEditTextEmail.getText().toString().trim()
-                , textInputEditTextPassword.getText().toString().trim())) {
-
+        if (mUserViewModel.getUsersListbyEmailAndPassword().getValue()!=null)
+            {
 
             Intent accountsIntent = new Intent(activity, UsersListActivity.class);
             accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());

@@ -15,12 +15,13 @@ public class UserViewModel  extends AndroidViewModel {
 
     private LiveData<List<User>> mAllUsers;
     private MutableLiveData<List<User>> searchResults;
-
+    private MutableLiveData<List<User>> usersListbyEmailAndPassword;
     public UserViewModel (Application application) {
         super(application);
         mRepository = new UserRepository(application);
         mAllUsers = mRepository.getAllUsers();
         searchResults = mRepository.getSearchResults();
+        usersListbyEmailAndPassword=mRepository.getusersListbyEmailAndPassword();
 
     }
 
@@ -34,13 +35,13 @@ public class UserViewModel  extends AndroidViewModel {
        mRepository.findUser(wpisanyemail);
     }
 
-    public boolean checkUser(String wpisanyemail,String wpisanepassword){
+    public  MutableLiveData<List<User>> getUsersListbyEmailAndPassword() {
+        return usersListbyEmailAndPassword;
+    }
 
-        if(mRepository.checkUser(wpisanyemail,wpisanepassword).getValue()!=null)
-        {    System.out.println(mRepository.checkUser(wpisanyemail,wpisanepassword).getValue().getEmail()+" "+ true);
-            return true;}
+    public void findUserbyIdAndPassword(String wpisanyemail,String wpisanepassword){
 
-        else return false;
+      mRepository.findUserbyIdAndPassword(wpisanyemail, wpisanepassword);
     }
 
   public  LiveData<List<User>> getAllUsers() { return mAllUsers; }
