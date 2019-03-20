@@ -81,10 +81,66 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * This method is to initialize listeners
      */
     private void initListeners() {
-        appCompatButtonRegister.setOnClickListener(this);
+      //  appCompatButtonRegister.setOnClickListener(this);
+
+        appCompatButtonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postDataToSQLite();
+            }
+            });
+
+
+
         appCompatTextViewLoginLink.setOnClickListener(this);
 
     }
+
+
+    /**
+     * This method is to validate the input text fields and post data to SQLite
+     */
+    private void postDataToSQLite() {
+        if (!inputValidation.isInputEditTextFilled(textInputEditTextName, textInputLayoutName, getString(R.string.error_message_name))) {
+            return;
+        }
+        if (!inputValidation.isInputEditTextFilled(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
+            return;
+        }
+        if (!inputValidation.isInputEditTextEmail(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
+            return;
+        }
+        if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_password))) {
+            return;
+        }
+        if (!inputValidation.isInputEditTextMatches(textInputEditTextPassword, textInputEditTextConfirmPassword,
+                textInputLayoutConfirmPassword, getString(R.string.error_password_match))) {
+            return;
+        }
+
+        mUserViewModel.findUser(textInputEditTextEmail.getText().toString().trim());
+
+        if ( mUserViewModel.getSearchResults().getValue()==null ) {
+
+            user.setName(textInputEditTextName.getText().toString().trim());
+            user.setEmail(textInputEditTextEmail.getText().toString().trim());
+            user.setPassword(textInputEditTextPassword.getText().toString().trim());
+
+            mUserViewModel.addUser(user);
+
+            // Snack Bar to show success message that record saved successfully
+            Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
+            emptyInputEditText();
+
+
+        } else {
+            // Snack Bar to show error message that record already exists
+            Snackbar.make(nestedScrollView, getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
+        }
+
+
+    }
+
 
     /**
      * This method is to initialize objects to be used
@@ -117,48 +173,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    /**
-     * This method is to validate the input text fields and post data to SQLite
-     */
-    private void postDataToSQLite() {
-        if (!inputValidation.isInputEditTextFilled(textInputEditTextName, textInputLayoutName, getString(R.string.error_message_name))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextFilled(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextEmail(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_password))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextMatches(textInputEditTextPassword, textInputEditTextConfirmPassword,
-                textInputLayoutConfirmPassword, getString(R.string.error_password_match))) {
-            return;
-        }
 
-
-        if (!mUserViewModel.checkUser(textInputEditTextEmail.getText().toString().trim())) {
-
-            user.setName(textInputEditTextName.getText().toString().trim());
-            user.setEmail(textInputEditTextEmail.getText().toString().trim());
-            user.setPassword(textInputEditTextPassword.getText().toString().trim());
-
-            mUserViewModel.addUser(user);
-
-            // Snack Bar to show success message that record saved successfully
-            Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
-            emptyInputEditText();
-
-
-        } else {
-            // Snack Bar to show error message that record already exists
-            Snackbar.make(nestedScrollView, getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
-        }
-
-
-    }
 
     /**
      * This method is to empty all input edit text
