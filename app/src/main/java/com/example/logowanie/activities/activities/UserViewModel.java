@@ -28,7 +28,8 @@ public class UserViewModel  extends AndroidViewModel {
    public  boolean checkUser(String wpisanyemail){
 
         if(mRepository.checkUser(wpisanyemail).getValue()!=null)
-            return true;
+        {    System.out.println(mRepository.checkUser(wpisanyemail).getValue().getEmail()+" "+ true);
+            return true;}
         else return false;
 
     }
@@ -36,7 +37,9 @@ public class UserViewModel  extends AndroidViewModel {
     public boolean checkUser(String wpisanyemail,String wpisanepassword){
 
         if(mRepository.checkUser(wpisanyemail,wpisanepassword).getValue()!=null)
-            return true;
+        {    System.out.println(mRepository.checkUser(wpisanyemail,wpisanepassword).getValue().getEmail()+" "+ true);
+            return true;}
+
         else return false;
     }
 
