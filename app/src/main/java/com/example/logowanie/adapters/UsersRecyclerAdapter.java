@@ -1,16 +1,15 @@
-package com.example.logowanie.activities.activities.adapters;
+package com.example.logowanie.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
 import com.example.logowanie.R;
-import com.example.logowanie.activities.activities.model.User;
+import com.example.logowanie.model.User;
 
 import java.util.List;
 

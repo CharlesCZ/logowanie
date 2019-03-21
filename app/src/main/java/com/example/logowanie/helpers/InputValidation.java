@@ -1,4 +1,4 @@
-package com.example.logowanie.activities.activities.helpers;
+package com.example.logowanie.helpers;
 
 import android.app.Activity;
 import android.content.Context;

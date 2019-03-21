@@ -1,4 +1,4 @@
-package com.example.logowanie.activities.activities.model;
+package com.example.logowanie.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

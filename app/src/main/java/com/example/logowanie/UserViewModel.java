@@ -1,11 +1,11 @@
-package com.example.logowanie.activities.activities;
+package com.example.logowanie;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.example.logowanie.activities.activities.model.User;
+import com.example.logowanie.model.User;
 
 import java.util.List;
 
