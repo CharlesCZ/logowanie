@@ -1,8 +1,7 @@
-package com.example.logowanie.activities.activities.activities;
+package com.example.logowanie.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +12,10 @@ import android.support.v7.widget.RecyclerView;
 
 
 import com.example.logowanie.R;
-import com.example.logowanie.activities.activities.UserViewModel;
-import com.example.logowanie.activities.activities.adapters.UsersRecyclerAdapter;
-import com.example.logowanie.activities.activities.model.User;
+import com.example.logowanie.UserViewModel;
+import com.example.logowanie.adapters.UsersRecyclerAdapter;
+import com.example.logowanie.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

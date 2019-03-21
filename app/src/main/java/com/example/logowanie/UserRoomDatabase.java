@@ -1,4 +1,4 @@
-package com.example.logowanie.activities.activities;
+package com.example.logowanie;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-import com.example.logowanie.activities.activities.model.User;
+import com.example.logowanie.model.User;
 
 @Database(entities = {User.class}, version = 1)
 public abstract class UserRoomDatabase extends RoomDatabase {

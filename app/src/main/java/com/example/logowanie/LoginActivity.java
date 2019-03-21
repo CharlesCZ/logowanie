@@ -1,4 +1,4 @@
-package com.example.logowanie.activities.activities;
+package com.example.logowanie;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -13,10 +13,9 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 
-import com.example.logowanie.R;
-import com.example.logowanie.activities.activities.activities.RegisterActivity;
-import com.example.logowanie.activities.activities.activities.UsersListActivity;
-import com.example.logowanie.activities.activities.helpers.InputValidation;
+import com.example.logowanie.activities.RegisterActivity;
+import com.example.logowanie.activities.UsersListActivity;
+import com.example.logowanie.helpers.InputValidation;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private final AppCompatActivity activity = LoginActivity.this;
