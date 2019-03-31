@@ -1,8 +1,10 @@
 package com.example.logowanie;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -16,6 +18,9 @@ import android.view.View;
 import com.example.logowanie.activities.RegisterActivity;
 import com.example.logowanie.activities.UsersListActivity;
 import com.example.logowanie.helpers.InputValidation;
+import com.example.logowanie.model.User;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private final AppCompatActivity activity = LoginActivity.this;
@@ -77,7 +82,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * This method is to initialize objects to be used
      */
     private void initObjects() {
-      //  databaseHelper = new DatabaseHelper(activity);
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         inputValidation = new InputValidation(activity);
 
@@ -115,22 +119,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_email))) {
             return;
         }
-        mUserViewModel.findUserbyIdAndPassword(textInputEditTextEmail.getText().toString().trim()
-                , textInputEditTextPassword.getText().toString().trim());
-
-        if (mUserViewModel.getUsersListbyEmailAndPassword().getValue()!=null)
-            {
-
-            Intent accountsIntent = new Intent(activity, UsersListActivity.class);
-            accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
-            emptyInputEditText();
-            startActivity(accountsIntent);
 
 
-        } else {
-            // Snack Bar to show success message that record is wrong
-            Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show();
-        }
+
+        mUserViewModel.findUserByEmailAndPassword(textInputEditTextEmail.getText().toString().trim(),
+                textInputEditTextPassword.getText().toString().trim()).observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable List<User> users) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (!users.isEmpty())
+                {
+
+                    Intent accountsIntent = new Intent(activity, UsersListActivity.class);
+                    accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+                    emptyInputEditText();
+                    startActivity(accountsIntent);
+
+
+                } else {
+                    // Snack Bar to show success message that record is wrong
+                    Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+
     }
 
     /**

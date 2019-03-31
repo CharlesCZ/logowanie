@@ -14,30 +14,43 @@ public class UserViewModel  extends AndroidViewModel {
     private UserRepository mRepository;
 
     private LiveData<List<User>> mAllUsers;
-    private MutableLiveData<List<User>> searchResults;
     private MutableLiveData<List<User>> usersListbyEmailAndPassword;
+    private UserRoomDatabase mDb;
+
+
     public UserViewModel (Application application) {
         super(application);
         mRepository = new UserRepository(application);
         mAllUsers = mRepository.getAllUsers();
-        searchResults = mRepository.getSearchResults();
         usersListbyEmailAndPassword=mRepository.getusersListbyEmailAndPassword();
+      createDb();;
 
     }
 
+    public void createDb(){
 
-  public  MutableLiveData<List<User>> getSearchResults() {
-        return searchResults;
+        mDb=UserRoomDatabase.getFileDatabase(this.getApplication());
+
+    }
+    public LiveData<List<User>> findUserByEmail(String email){
+        return mDb.userDao().findUserByEmail(email);
+
     }
 
+public  LiveData<List<User>> findUserByEmailAndPassword(String wpisanyemail,String wpisanepassword){
 
-    public  void findUser(String wpisanyemail){
-       mRepository.findUser(wpisanyemail);
-    }
+        return mDb.userDao().findUserByEmailAndPassword(wpisanyemail,wpisanepassword);
+}
+
+
+
 
     public  MutableLiveData<List<User>> getUsersListbyEmailAndPassword() {
         return usersListbyEmailAndPassword;
     }
+
+
+
 
     public void findUserbyIdAndPassword(String wpisanyemail,String wpisanepassword){
 
@@ -48,7 +61,5 @@ public class UserViewModel  extends AndroidViewModel {
 
     public void addUser(User user) { mRepository.insert(user); }
 
-    public void deleteUser(String name) {
-        mRepository.deleteUser(name);
-    }
+
 }

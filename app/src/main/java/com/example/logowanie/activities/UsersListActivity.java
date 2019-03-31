@@ -1,6 +1,7 @@
 package com.example.logowanie.activities;
 
 import android.arch.lifecycle.Observer;
+
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -54,6 +55,7 @@ public class UsersListActivity extends AppCompatActivity {
      */
     private void initObjects() {
         final UsersRecyclerAdapter usersRecyclerAdapter  = new UsersRecyclerAdapter(this);
+
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         mUserViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
             @Override

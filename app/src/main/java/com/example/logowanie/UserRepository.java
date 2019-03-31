@@ -3,6 +3,7 @@ package com.example.logowanie;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.logowanie.model.User;
@@ -13,13 +14,12 @@ public class UserRepository {
 
     private UserDao mUserDao;
     private LiveData<List<User>>  mAllUsers;
-    private MutableLiveData<List<User>> searchResults =
-            new MutableLiveData<>();
+
     private MutableLiveData<List<User>> usersListbyEmailAndPassword =
             new MutableLiveData<>();
 
      UserRepository(Application application) {
-        UserRoomDatabase db=UserRoomDatabase.getDatabase(application);
+        UserRoomDatabase db=UserRoomDatabase.getFileDatabase(application);
         mUserDao= db.userDao();
        mAllUsers = mUserDao.getAllUsers();
     }
@@ -33,41 +33,7 @@ public class UserRepository {
 
 
 
-    public MutableLiveData<List<User>> getSearchResults() {
-        return searchResults;
-    }
 
-    public void findUser(String email) {
-        QueryAsyncTask task = new QueryAsyncTask(mUserDao);
-        task.delegate = this;
-        task.execute(email);
-    }
-
-
-
-    private void asyncFinished(List<User> results) {
-        searchResults.setValue(results);
-    }
-    private static class QueryAsyncTask extends
-            AsyncTask<String, Void, List<User>> {
-
-        private UserDao asyncTaskDao;
-        private UserRepository delegate = null;
-
-        QueryAsyncTask(UserDao dao) {
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected List<User> doInBackground(final String... params) {
-            return asyncTaskDao.findUser(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(List<User> result) {
-            delegate.asyncFinished(result);
-        }
-    }
 
 
 

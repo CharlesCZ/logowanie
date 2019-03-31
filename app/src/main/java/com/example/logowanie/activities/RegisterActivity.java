@@ -1,6 +1,8 @@
 package com.example.logowanie.activities;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -13,10 +15,13 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 
+import com.example.logowanie.LoginActivity;
 import com.example.logowanie.R;
 import com.example.logowanie.UserViewModel;
 import com.example.logowanie.helpers.InputValidation;
 import com.example.logowanie.model.User;
+
+import java.util.List;
 
 /**
  * Created by lalit on 8/27/2016.
@@ -118,25 +123,40 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        mUserViewModel.findUser(textInputEditTextEmail.getText().toString().trim());
+      //  mUserViewModel.findUser(textInputEditTextEmail.getText().toString().trim());
 
-        if ( mUserViewModel.getSearchResults().getValue()==null ) {
-
-            user.setName(textInputEditTextName.getText().toString().trim());
-            user.setEmail(textInputEditTextEmail.getText().toString().trim());
-            user.setPassword(textInputEditTextPassword.getText().toString().trim());
-
-            mUserViewModel.addUser(user);
-
-            // Snack Bar to show success message that record saved successfully
-            Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
-            emptyInputEditText();
+        mUserViewModel.findUserByEmail(textInputEditTextEmail.getText().toString().trim()).observe(this, new Observer<List<User>>() {
 
 
-        } else {
-            // Snack Bar to show error message that record already exists
-            Snackbar.make(nestedScrollView, getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
-        }
+            @Override
+            public void onChanged(@Nullable List<User> users) {
+                try {
+                    Thread.sleep(500);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(users==null || users.isEmpty()){
+                    user.setName(textInputEditTextName.getText().toString().trim());
+                    user.setEmail(textInputEditTextEmail.getText().toString().trim());
+                    user.setPassword(textInputEditTextPassword.getText().toString().trim());
+
+                    mUserViewModel.addUser(user);
+                    // Snack Bar to show success message that record saved successfully
+                  //  Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
+
+                    Intent intent=new Intent(RegisterActivity.this, LoginActivity.class);
+                    intent.putExtra("success", getString(R.string.success_message));
+                    RegisterActivity.this.startActivity(intent);
+
+                }
+                else {
+                        // Snack Bar to show error message that record already exists
+                        Snackbar.make(nestedScrollView, getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
 
     }
@@ -147,7 +167,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     private void initObjects() {
         inputValidation = new InputValidation(activity);
-        //databaseHelper = new DatabaseHelper(activity);
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         user = new User();
 
