@@ -12,9 +12,7 @@ import java.util.List;
 public class UserViewModel  extends AndroidViewModel {
 
     private UserRepository mRepository;
-
     private LiveData<List<User>> mAllUsers;
-    private MutableLiveData<List<User>> usersListbyEmailAndPassword;
     private UserRoomDatabase mDb;
 
 
@@ -22,7 +20,7 @@ public class UserViewModel  extends AndroidViewModel {
         super(application);
         mRepository = new UserRepository(application);
         mAllUsers = mRepository.getAllUsers();
-        usersListbyEmailAndPassword=mRepository.getusersListbyEmailAndPassword();
+
       createDb();;
 
     }
@@ -42,20 +40,6 @@ public  LiveData<List<User>> findUserByEmailAndPassword(String wpisanyemail,Stri
         return mDb.userDao().findUserByEmailAndPassword(wpisanyemail,wpisanepassword);
 }
 
-
-
-
-    public  MutableLiveData<List<User>> getUsersListbyEmailAndPassword() {
-        return usersListbyEmailAndPassword;
-    }
-
-
-
-
-    public void findUserbyIdAndPassword(String wpisanyemail,String wpisanepassword){
-
-      mRepository.findUserbyIdAndPassword(wpisanyemail, wpisanepassword);
-    }
 
   public  LiveData<List<User>> getAllUsers() { return mAllUsers; }
 
