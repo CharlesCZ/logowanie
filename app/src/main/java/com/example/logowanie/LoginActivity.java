@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         mUserViewModel.findUserByEmailAndPassword(textInputEditTextEmail.getText().toString().trim(),
-                textInputEditTextPassword.getText().toString().trim()).observe(this, new Observer<List<User>>() {
+                GFG.encryptThisString(textInputEditTextPassword.getText().toString().trim())).observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(@Nullable List<User> users) {
                 try {

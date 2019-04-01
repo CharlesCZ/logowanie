@@ -15,6 +15,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 
+import com.example.logowanie.GFG;
 import com.example.logowanie.LoginActivity;
 import com.example.logowanie.R;
 import com.example.logowanie.UserViewModel;
@@ -139,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if(users==null || users.isEmpty()){
                     user.setName(textInputEditTextName.getText().toString().trim());
                     user.setEmail(textInputEditTextEmail.getText().toString().trim());
-                    user.setPassword(textInputEditTextPassword.getText().toString().trim());
+                    user.setPassword(GFG.encryptThisString(textInputEditTextPassword.getText().toString().trim()));
 
                     mUserViewModel.addUser(user);
                     // Snack Bar to show success message that record saved successfully
